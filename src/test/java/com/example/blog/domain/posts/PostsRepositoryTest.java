@@ -1,4 +1,6 @@
 package com.example.blog.domain.posts;
+import com.example.blog.domain.posts.Posts;
+import com.example.blog.domain.posts.PostsRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

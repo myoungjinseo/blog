@@ -3,7 +3,6 @@ package com.example.blog.domain.posts;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @Getter
@@ -13,12 +12,12 @@ public class Posts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long Id;
 
     @Column(length = 500, nullable = false)
     private String title;
 
-    @Column(columnDefinition = "Text", nullable = false)
+    @Column( columnDefinition = "TEXT", nullable = false)
     private String content;
 
     private String author;
@@ -28,5 +27,10 @@ public class Posts {
         this.title = title;
         this.content = content;
         this.author = author;
+    }
+
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
     }
 }
