@@ -2,6 +2,7 @@ package com.example.blog.survice.posts;
 
 import com.example.blog.domain.posts.Posts;
 import com.example.blog.domain.posts.PostsRepository;
+import com.example.blog.web.dto.PostsListResponseDto;
 import com.example.blog.web.dto.PostsResponseDto;
 import com.example.blog.web.dto.PostsSaveRequestDto;
 import com.example.blog.web.dto.PostsUpdateRequestDto;
@@ -26,19 +27,32 @@ public class PostsService {
     @Transactional
     public Long update(Long id, PostsUpdateRequestDto requestDto){
         Posts posts = postsRepository.findById(id)
-                .orElseThrow(() -> new
-                        IllegalArgumentException("해당 게시글이 없습니다. id="+id));
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
         posts.update(requestDto.getTitle(),requestDto.getContent());
 
         return id;
     }
 
-    @Transactional
+
     public PostsResponseDto findById(Long id){
         Posts entity = postsRepository.findById(id)
-                .orElseThrow(() -> new
-                        IllegalArgumentException("해당 게시글이 없습니다. id="+id));
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
 
         return new PostsResponseDto(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc(){
+        return postsRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete (Long id){
+        Posts posts = postsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+        postsRepository.delete(posts);
     }
 }
