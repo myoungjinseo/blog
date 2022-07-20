@@ -1,5 +1,6 @@
 package com.example.blog.web;
 
+import com.example.blog.config.auth.LoginUser;
 import com.example.blog.config.auth.dto.SessionUser;
 import com.example.blog.survice.posts.PostsService;
 import com.example.blog.web.dto.PostsResponseDto;
@@ -16,14 +17,12 @@ import javax.servlet.http.HttpSession;
 public class indexController {
 
     private final PostsService postsService;
-    private final HttpSession httpSession;
 
 
 
     @GetMapping("/")
-    public String index(Model model){
+    public String index(Model model, @LoginUser SessionUser user){
         model.addAttribute("posts",postsService.findAllDesc());
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user != null){
             model.addAttribute("userName",user.getName());
         }
